@@ -2,8 +2,8 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      python: 3.9
+    # runtime-versions:
+    #   python: 3.9
     commands:
       - echo Installing AWS CLI...
       - pip install --upgrade awscli
