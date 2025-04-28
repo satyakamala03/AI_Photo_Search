@@ -98,7 +98,7 @@ Resources:
       PathPart: photos
       RestApiId: !Ref PhotoSearchAPI
 
-  ## PUT /photos/{object} method (fixed!) ##
+  ## PUT /photos/{object} method ##
   UploadPhotoMethod:
     Type: AWS::ApiGateway::Method
     Properties:

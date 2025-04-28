@@ -10,17 +10,15 @@ import http.client
 
 region = 'us-east-1'  
 service = 'es'       
-host = 'search-photos-2qrt2dmuwhxmm5j2xxe7exnu4y.us-east-1.es.amazonaws.com'  # <--- Replace with your actual OpenSearch endpoint (no https://)
+host = 'search-photos-2qrt2dmuwhxmm5j2xxe7exnu4y.us-east-1.es.amazonaws.com'  
 index = 'photos'
 
-# Create AWS service clients
 s3 = boto3.client('s3')
 rekognition = boto3.client('rekognition')
 
 def lambda_handler(event, context):
     print("Received event:", json.dumps(event))
 
-    # Extract bucket and object key
     bucket = event['Records'][0]['s3']['bucket']['name']
     key = event['Records'][0]['s3']['object']['key']
 
@@ -39,7 +37,6 @@ def lambda_handler(event, context):
     # Combine labels
     labels = rek_labels + custom_labels_list
 
-    # Build document
     doc = {
         "objectKey": key,
         "bucket": bucket,

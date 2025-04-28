@@ -3,13 +3,11 @@ import boto3
 import urllib3
 import base64
 
-# AWS setup
 region = 'us-east-1'
 host = 'search-photos-2qrt2dmuwhxmm5j2xxe7exnu4y.us-east-1.es.amazonaws.com'
 index = 'photos'
 http = urllib3.PoolManager()
 
-# Basic auth for OpenSearch
 username = 'hetal'
 password = 'Hetal21@'
 
@@ -24,23 +22,19 @@ def lambda_handler(event, context):
     print("Event received:", json.dumps(event))
 
     try:
-        # 🛡️ CORS Preflight request
         if event.get('httpMethod', '') == 'OPTIONS':
             return build_cors_response(200, {"message": "CORS preflight success"})
 
-        # 🌟 API Gateway call
         if 'queryStringParameters' in event:
             query = event.get('queryStringParameters', {}).get('q', '')
             response = handle_api_gateway(query)
         else:
-            # 🤖 Lex bot call
             response = handle_lex(event)
 
     except Exception as e:
         print("Unhandled exception:", str(e))
         response = build_cors_response(500, {"error": "Internal Server Error", "message": str(e)})
 
-    # 🛡️ Inject CORS headers into all responses
     if 'headers' not in response:
         response['headers'] = {}
     response['headers']['Access-Control-Allow-Origin'] = "*"
@@ -65,7 +59,7 @@ def handle_api_gateway(query):
     print("API Gateway query received:", query)
 
     if not query:
-        return build_cors_response(200, [])  # Empty search query → return empty list
+        return build_cors_response(200, [])  
 
     keywords = [word.strip().lower() for word in query.split() if word.strip()]
     photos = search_photos(keywords)
@@ -125,7 +119,7 @@ def search_photos(keywords):
 
     try:
         response = http.request(
-            'POST',  # ✅ Fixed: POST because we're sending a body
+            'POST',  
             f'https://{host}/{index}/_search',
             body=json.dumps(search_query),
             headers=basic_auth_headers
