@@ -10,7 +10,7 @@ phases:
       # Prepare index-photos Lambda package
       - echo "Building index-photos Lambda package"
       - mkdir index-photos-deploy
-      - cp -r Lambda_functions/index-photos/* index-photos-deploy/
+      - cp -r lambdafunctions/index-photos/* index-photos-deploy/
       - cd index-photos-deploy
       - zip -r ../index-photos.zip .
       - cd ..
@@ -18,7 +18,7 @@ phases:
       # Prepare search-photos Lambda package
       - echo "Building search-photos Lambda package"
       - mkdir search-photos-deploy
-      - cp -r Lambda_functions/search-photos/* search-photos-deploy/
+      - cp -r lambdafunctions/search-photos/* search-photos-deploy/
       - cd search-photos-deploy
       - zip -r ../search-photos.zip .
       - cd ..
