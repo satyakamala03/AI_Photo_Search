@@ -2,8 +2,6 @@ version: 0.2
 
 phases:
   install:
-    # runtime-versions:
-    #   python: 3.9
     commands:
       - echo Installing AWS CLI...
       - pip install --upgrade awscli
@@ -24,14 +22,12 @@ phases:
       - cd search-photos-deploy
       - zip -r ../search-photos.zip .
       - cd ..
-
-post_build:
-  commands:
-    - echo Updating index-photos Lambda...
-    - aws lambda update-function-code --function-name index-photos --zip-file fileb://index-photos.zip
-    - echo Updating search-photos Lambda...
-    - aws lambda update-function-code --function-name search-photos --zip-file fileb://search-photos.zip
-
+  post_build:
+    commands:
+      - echo Updating index-photos Lambda...
+      - aws lambda update-function-code --function-name index-photos --zip-file fileb://index-photos.zip
+      - echo Updating search-photos Lambda...
+      - aws lambda update-function-code --function-name search-photos --zip-file fileb://search-photos.zip
 
 artifacts:
   files:
