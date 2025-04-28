@@ -86,83 +86,47 @@
             });
         }
 
-        // // Function to upload photo
-        // function uploadPhoto() {
-        //     const fileInput = document.getElementById('uploadFile');
-        //     const labelsInput = document.getElementById('customLabels');
-        //     const file = fileInput.files[0];
+        // === Upload Photo using apigClient SDK (improved style) ===
+        // Function to upload photo
+        function uploadPhoto() {
+            const fileInput = document.getElementById('uploadFile');
+            const labelsInput = document.getElementById('customLabels');
+            const file = fileInput.files[0];
 
-        //     if (!file) {
-        //         alert("Please select a file to upload.");
-        //         return;
-        //     }
+            if (!file) {
+                alert("Please select a file to upload.");
+                return;
+            }
 
-        //     const reader = new FileReader();
-        //     reader.onload = function(event) {
-        //         const binaryData = event.target.result;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const binaryData = event.target.result;
 
-        //         apigClient.photosObjectPut({
-        //             'object': file.name,
-        //             'x-amz-meta-customLabels': labelsInput.value
-        //         }, binaryData, {
-        //             headers: {
-        //                 'Content-Type': file.type,
-        //                 'x-amz-meta-customLabels': labelsInput.value
-        //             }
-        //         })
-        //         .then(function(response) {
-        //             console.log(response);
-        //             document.getElementById('uploadStatus').innerHTML = "Upload successful!";
-        //         })
-        //         .catch(function(error) {
-        //             console.error("Error uploading photo:", error);
-        //             document.getElementById('uploadStatus').innerHTML = "Upload failed.";
-        //         });
+                apigClient.photosPut({
+                    'object': file.name,   // path parameter (if your API expects it)
+                    'x-amz-meta-customLabels': labelsInput.value // custom labels as metadata
+                }, binaryData, {
+                    headers: {
+                        'Content-Type': file.type,             // file type
+                        'x-amz-meta-customLabels': labelsInput.value // pass labels again in headers
+                    }
+                })
+                .then(function(response) {
+                    console.log('Upload successful:', response);
+                    document.getElementById('uploadStatus').innerHTML = "Upload successful!";
+                })
+                .catch(function(error) {
+                    console.error('Upload failed:', error);
+                    document.getElementById('uploadStatus').innerHTML = "Upload failed.";
+                });
+            };
 
-        //     };
-
-        //     reader.readAsArrayBuffer(file);
-        // }
-    function uploadPhoto() {
-        const fileInput = document.getElementById('uploadFile');
-        const labelsInput = document.getElementById('customLabels');
-        const file = fileInput.files[0];
-
-        if (!file) {
-            alert("Please select a file to upload.");
-            return;
+            // Very important: Read file as ArrayBuffer, not text!
+            reader.readAsArrayBuffer(file);
         }
 
-        // Prepare your signed API Gateway endpoint
-        const uploadUrl = `https://zhqpglu15j.execute-api.us-east-1.amazonaws.com/dev/photos/${encodeURIComponent(file.name)}`;
 
-        const xhr = new XMLHttpRequest();
-        xhr.open('PUT', uploadUrl, true);
 
-        // Set the API key (in headers)
-        xhr.setRequestHeader('x-api-key', 'KeX0NV6sfX14XZs7mbgYK7ohVHsD4Mvi4Awuo4xU');
-
-        // Set Content-Type of the file
-        xhr.setRequestHeader('Content-Type', file.type);
-
-        // Pass custom labels as metadata
-        xhr.setRequestHeader('x-amz-meta-customLabels', labelsInput.value);
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {  // DONE
-                if (xhr.status === 200) {
-                    console.log('Upload successful:', xhr.responseText);
-                    document.getElementById('uploadStatus').innerHTML = "Upload successful!";
-                } else {
-                    console.error('Upload failed:', xhr.responseText);
-                    document.getElementById('uploadStatus').innerHTML = "Upload failed.";
-                }
-            }
-        };
-
-        // Send raw file as body
-        xhr.send(file);
-    }
 
     </script>
 </body>
