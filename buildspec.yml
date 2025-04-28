@@ -34,4 +34,3 @@ artifacts:
   files:
     - index-photos.zip
     - search-photos.zip
-    - appspec.yml
