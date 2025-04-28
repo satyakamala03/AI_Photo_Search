@@ -4,6 +4,9 @@ phases:
   install:
     runtime-versions:
       python: 3.9
+    commands:
+      - echo Installing AWS CLI...
+      - pip install --upgrade awscli
   build:
     commands:
       # Prepare index-photos Lambda package
