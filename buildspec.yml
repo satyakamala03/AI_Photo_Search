@@ -6,15 +6,24 @@ phases:
       python: 3.9
   build:
     commands:
-      - echo "Zipping index-photos Lambda"
-      - cd Lambda_functions/index-photos
-      - zip -r ../../index-photos.zip .
-      - cd ../../
-      - echo "Zipping search-photos Lambda"
-      - cd Lambda_functions/search-photos
-      - zip -r ../../search-photos.zip .
-      - cd ../../
+      # Prepare index-photos Lambda package
+      - echo "Building index-photos Lambda package"
+      - mkdir index-photos-deploy
+      - cp -r Lambda_functions/index-photos/* index-photos-deploy/
+      - cd index-photos-deploy
+      - zip -r ../index-photos.zip .
+      - cd ..
+
+      # Prepare search-photos Lambda package
+      - echo "Building search-photos Lambda package"
+      - mkdir search-photos-deploy
+      - cp -r Lambda_functions/search-photos/* search-photos-deploy/
+      - cd search-photos-deploy
+      - zip -r ../search-photos.zip .
+      - cd ..
+
 artifacts:
   files:
     - index-photos.zip
     - search-photos.zip
+    - appspec.yml

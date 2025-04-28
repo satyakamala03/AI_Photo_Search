@@ -1,0 +1,8 @@
+version: 0.0
+Resources:
+  - ResourceType: AWS::Lambda::Function
+    ResourceName: index-photos
+    Action: UpdateFunctionCode
+  - ResourceType: AWS::Lambda::Function
+    ResourceName: search-photos
+    Action: UpdateFunctionCode
