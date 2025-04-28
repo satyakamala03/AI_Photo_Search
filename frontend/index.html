@@ -86,7 +86,6 @@
             });
         }
 
-        // === Upload Photo using apigClient SDK (improved style) ===
         // Function to upload photo
         function uploadPhoto() {
             const fileInput = document.getElementById('uploadFile');
@@ -103,12 +102,12 @@
                 const binaryData = event.target.result;
 
                 apigClient.photosPut({
-                    'object': file.name,   // path parameter (if your API expects it)
+                    'object': file.name,   
                     'x-amz-meta-customLabels': labelsInput.value // custom labels as metadata
                 }, binaryData, {
                     headers: {
-                        'Content-Type': file.type,             // file type
-                        'x-amz-meta-customLabels': labelsInput.value // pass labels again in headers
+                        'Content-Type': file.type,             
+                        'x-amz-meta-customLabels': labelsInput.value 
                     }
                 })
                 .then(function(response) {
@@ -121,7 +120,6 @@
                 });
             };
 
-            // Very important: Read file as ArrayBuffer, not text!
             reader.readAsArrayBuffer(file);
         }
 
